@@ -1,0 +1,12 @@
+[ignore]
+.*/src/test/.*
+.*/dist/.*
+.*/node_modules/reflex/examples/.*
+
+[libs]
+./node_modules/reflex/interfaces/
+./node_modules/reflex-react-renderer/interfaces/
+
+[include]
+
+[options]
