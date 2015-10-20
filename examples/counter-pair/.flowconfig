@@ -1,0 +1,16 @@
+[ignore]
+.*/src/test/.*
+.*/dist/.*
+.*/node_modules/reflex/examples/.*
+.*/node_modules/reflex-react-driver/lib/.*
+.*/node_modules/reflex/lib/.*
+
+[libs]
+./node_modules/reflex/interfaces/
+./node_modules/reflex-react-driver/interfaces/
+
+[include]
+
+[options]
+module.name_mapper='reflex-react-driver' -> 'reflex-react-driver/src/index'
+module.name_mapper='reflex' -> 'reflex/src/index'

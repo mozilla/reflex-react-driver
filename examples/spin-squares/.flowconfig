@@ -1,0 +1,22 @@
+[ignore]
+.*/src/test/.*
+.*/dist/.*
+.*/node_modules/reflex/examples/.*
+.*/node_modules/reflex-react-driver/lib/.*
+.*/node_modules/reflex/lib/.*
+.*/node_modules/eased/lib/.*
+.*/node_modules/eased/dist/.*
+.*/node_modules/eased/.*/lib/.*
+.*/node_modules/eased/.*/dist/.*
+
+[libs]
+./node_modules/reflex/interfaces/
+./node_modules/reflex-react-driver/interfaces/
+
+[include]
+
+[options]
+module.name_mapper='reflex-react-driver' -> 'reflex-react-driver/src/index'
+module.name_mapper='reflex' -> 'reflex/src/index'
+module.name_mapper='eased' -> 'eased/src/index'
+module.name_mapper='color-structure' -> 'color-structure/src/index'
