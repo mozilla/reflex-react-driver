@@ -24,6 +24,7 @@
     "tape": "2.3.2"
   },
   "scripts": {
+    "test": "flow check",
     "check": "flow check",
     "build-node": "babel ./src --out-dir ./lib --plugins flow-comments --blacklist flow",
     "build-browser": "babel ./src --out-dir ./dist --modules umdStrict",
