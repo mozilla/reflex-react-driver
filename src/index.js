@@ -1,49 +1,62 @@
 /* @flow */
 
-import * as React from "react";
-/*::
-import type {VirtualElement} from "reflex/src/core";
-import type {Address} from "reflex/src/signal";
 
-type RenderTarget = Node|Element|HTMLElement;
-type Configuration = {target: RenderTarget};
+import * as React from "react";
+import {node} from "./node"
+import {thunk} from "./thunk"
+
+/*::
+import type {VirtualTree, Address, Driver} from "reflex/type";
+
+type RenderTarget = Node & Element & HTMLElement
+type Configuration = {target: RenderTarget, timeGroupName?:string}
 */
 
 export class Renderer {
   /*::
   target: RenderTarget;
+  value: Driver.VirtualRoot;
   isScheduled: boolean;
   version: number;
-  value: VirtualElement;
-  receive: (value:VirtualElement) => void;
-  render: () => void;
-  address: Address<VirtualElement>;
+  address: Address<Driver.VirtualRoot>;
+  execute: () => void;
+  timeGroupName: ?string;
+
+  render: Driver.render;
+  node: Driver.node;
+  thunk: Driver.thunk;
+  text: ?Driver.text;
   */
-  constructor({target}/*:Configuration*/) {
+  constructor({target, timeGroupName}/*:Configuration*/) {
     this.isScheduled = false
     this.version = 0
 
     this.target = target
-    this.render = this.render.bind(this)
+    this.timeGroupName = timeGroupName == null ? null : timeGroupName
 
     this.address = this.receive.bind(this)
+    this.execute = this.execute.bind(this)
   }
-  receive(value/*:VirtualElement*/) {
+  toString()/*:string*/{
+    return `Renderer({target: ${this.target}})`
+  }
+  receive(value/*:Driver.VirtualRoot*/) {
     this.value = value
     this.schedule()
   }
   schedule() {
     if (!this.isScheduled) {
       this.isScheduled = true
-      this.version = requestAnimationFrame(this.render)
+      this.version = requestAnimationFrame(this.execute)
     }
   }
-  render() {
-    if (profile) {
-      console.time('render')
+  execute(_/*:number*/) {
+    const {timeGroupName} = this
+    if (timeGroupName != null) {
+      console.time(`render ${timeGroupName}`)
     }
 
-    var start = performance.now()
+    const start = performance.now()
 
     // It is important to mark `isScheduled` as `false` before doing actual
     // rendering since state changes in effect of reflecting current state
@@ -55,30 +68,24 @@ export class Renderer {
     // rather attempt to render updated states that end up being blocked
     // forever.
     this.isScheduled = false
-    if (profile) {
-      console.time('render')
-    }
 
-    React.render(this.value, this.target)
+    this.value.renderWith(this)
 
-    var end = performance.now()
-    var time = end - start
+    const end = performance.now()
+    const time = end - start
 
     if (time > 16) {
       console.warn(`Render took ${time}ms & will cause frame drop`)
     }
 
-    if (profile) {
-      console.timeEnd('render')
+    if (timeGroupName != null) {
+      console.time(`render ${timeGroupName}`)
     }
   }
+  render(tree/*:VirtualTree*/) {
+    React.render(tree, this.target)
+  }
 }
-
-var profile /*:?string*/ = null
-export var time = (name/*:?string*/) => {
-  profile = name
-}
-
-export var timeEnd = () => {
-  profile = null
-}
+Renderer.prototype.text = null
+Renderer.prototype.node = node
+Renderer.prototype.thunk = thunk

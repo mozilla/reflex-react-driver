@@ -1,11 +1,14 @@
 [ignore]
+.*/examples/.*
 .*/src/test/.*
-.*/dist/.*
 .*/node_modules/reflex/examples/.*
+.*/node_modules/reflex/lib/.*
+.*/node_modules/reflex/dist/.*
+.*/reflex-react-driver/lib/.*
+.*/reflex-react-driver/dist/.*
 
 [libs]
 ./node_modules/reflex/interfaces/
-./node_modules/reflex-react-renderer/interfaces/
 
 [include]
 

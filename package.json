@@ -1,5 +1,5 @@
 {
-  "name": "reflex-react-renderer",
+  "name": "reflex-react-driver",
   "version": "0.0.2",
   "description": "React based renderer for reflex",
   "keywords": [
@@ -8,36 +8,40 @@
     "renderer"
   ],
   "author": "Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)",
-  "homepage": "https://github.com/Gozala/reflex-react-renderer",
-  "main": "./dist/index.js",
+  "homepage": "https://github.com/Gozala/reflex-react-driver",
+  "main": "./lib/index.js",
   "dependencies": {
-    "react": "0.13.3"
+    "react": "0.13.3",
+    "blanks": "0.0.2",
+    "object-as-dictionary": "0.0.3"
   },
   "devDependencies": {
     "babel": "5.6.14",
+    "babel-plugin-flow-comments": "1.0.9",
     "flow-bin": "0.16.0",
-    "reflex": "0.0.40",
+    "reflex": "0.0.50",
     "tap": "1.1.0",
     "tape": "2.3.2"
   },
   "scripts": {
     "check": "flow check",
-    "start": "babel --watch --optional spec.protoToAssign --modules umdStrict --source-maps inline --out-dir ./dist ./src",
-    "build": "babel --optional spec.protoToAssign --modules umdStrict --source-maps inline --out-dir ./dist ./src",
+    "build-node": "babel ./src --out-dir ./lib --plugins flow-comments --blacklist flow",
+    "build-browser": "babel ./src --out-dir ./dist --modules umdStrict",
+    "build": "npm run build-node && npm run build-browser",
     "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gozala/reflex-react-renderer.git",
-    "web": "https://github.com/Gozala/reflex-react-renderer"
+    "url": "https://github.com/Gozala/reflex-react-driver.git",
+    "web": "https://github.com/Gozala/reflex-react-driver"
   },
   "bugs": {
-    "url": "https://github.com/Gozala/reflex-react-renderer/issues/"
+    "url": "https://github.com/Gozala/reflex-react-driver/issues/"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/Gozala/reflex-react-renderer/License.md"
+      "url": "https://github.com/Gozala/reflex-react-driver/License.md"
     }
   ]
 }
